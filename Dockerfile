@@ -4,6 +4,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     jq \
     python \
     python-pip \
+    unzip \
     wget \
     zip \
     && rm -rf /var/lib/apt/lists/*
