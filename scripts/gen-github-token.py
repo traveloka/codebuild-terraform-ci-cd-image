@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import boto3
 import json
 import jwt
@@ -9,19 +10,19 @@ import time
 client = boto3.client('ssm')
 
 parameter_store = client.get_parameter(
-    Name = "/tvlk-secret/terraform-ci-cd/terraform-ci-cd/github-app-private-key",
-    WithDecryption = True
+    Name="/tvlk-secret/terraform-ci-cd/terraform-ci-cd/github-app-private-key",
+    WithDecryption=True
 )
 
 github_app_private_key = parameter_store["Parameter"]["Value"]
 
 payload = {
-  # issued at time
-  "iat": int(time.time()),
-  # JWT expiration time (10 minute maximum)
-  "exp": int(time.time()) + (10 * 60),
-  # GitHub App's identifier
-  "iss": 17077
+    # issued at time
+    "iat": int(time.time()),
+    # JWT expiration time (10 minute maximum)
+    "exp": int(time.time()) + (10 * 60),
+    # GitHub App's identifier
+    "iss": 17077
 }
 github_jwt = jwt.encode(payload, github_app_private_key, algorithm="RS256")
 
@@ -30,7 +31,8 @@ headers = {
     "Accept": "application/vnd.github.machine-man-preview+json"
 }
 
-r = requests.post("https://api.github.com/app/installations/328056/access_tokens", headers=headers)
+r = requests.post(
+    "https://api.github.com/app/installations/328056/access_tokens", headers=headers)
 
 github_token = json.loads(r.text)["token"]
 

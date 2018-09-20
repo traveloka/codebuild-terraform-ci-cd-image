@@ -1,3 +1,4 @@
+#!/bin/bash
 git merge-base --is-ancestor origin/master HEAD
 if [ $? -ne 0 ]; then
     echo "Error: Commit isn't based on origin/master"

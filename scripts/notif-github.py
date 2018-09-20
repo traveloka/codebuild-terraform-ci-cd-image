@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys
 import requests
 import os
@@ -13,7 +14,8 @@ f = open("build/metadata.json", "r")
 metadata = f.read()
 headers = {"Authorization": "token " + git_token}
 json = {
-    "body": "metadata.json\n```json\n" + metadata + "```\nterraform.tfplan\n```hcl\n" + tf_plan +"```\n"
+    "body": "metadata.json\n```json\n" + metadata + "```\nterraform.tfplan\n```hcl\n" + tf_plan + "```\n"
 }
-r = requests.post('https://api.github.com/repos/'+ owner_repo +'/issues/' + pr_id +'/comments', headers=headers, json=json)
+r = requests.post('https://api.github.com/repos/' + owner_repo +
+                  '/issues/' + pr_id + '/comments', headers=headers, json=json)
 print r.json
