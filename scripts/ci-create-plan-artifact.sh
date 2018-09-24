@@ -12,5 +12,5 @@ jq -n "{
 }" > artifact/metadata.json
 # Zip artifact folder
 cd artifact
-zip -r ../$${GIT_MASTER_COMMIT_ID}-${PR_ID}.zip .
+zip -r ../${GIT_MASTER_COMMIT_ID}-${PR_ID}.zip .
 cd ..

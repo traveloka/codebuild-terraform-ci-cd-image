@@ -4,7 +4,7 @@ import sys
 import requests
 import os
 
-command = os.popen('terraform show build/terraform.tfplan -no-color')
+command = os.popen('terraform show artifact/terraform.tfplan -no-color')
 tf_plan = command.read()
 command.close()
 
