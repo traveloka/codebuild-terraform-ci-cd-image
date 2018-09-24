@@ -1,5 +1,5 @@
 #!/bin/bash
-# Set Environment Variables:
+# Set CI Environment Variables:
 # 1. OWNER_REPO             ${owner name}/${repo name}
 # 2. PR_ID                  Github Pull Request ID
 # 3. GIT_MASTER_COMMIT_ID   Latest master commit which fetched by current build

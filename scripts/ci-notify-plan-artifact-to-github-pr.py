@@ -11,7 +11,7 @@ command.close()
 git_token = os.environ["GITHUB_TOKEN"]
 owner_repo = os.environ["OWNER_REPO"]
 pr_id = os.environ["PR_ID"]
-f = open("build/metadata.json", "r")
+f = open("artifact/metadata.json", "r")
 metadata = f.read()
 headers = {"Authorization": "token " + git_token}
 json = {
