@@ -6,8 +6,6 @@
 # 4. GITHUB_TOKEN           Github token for Github authentication
 # 5. GIT_ASKPASS            Command which called by git command to authenticate using Github token
 # 6. LATEST_COMMIT_APPLY    Commit that currently applied on infra.
-# Input:
-# ${1} Artifact S3 Bucket
 
 export OWNER_REPO="$(git config --get remote.origin.url | sed 's/^https:\\/\\/github.com\\///; s/.git$//')"
 echo "OWNER_REPO=${OWNER_REPO}}"
@@ -22,6 +20,6 @@ echo "GITHUB_TOKEN is set"
 export GIT_ASKPASS="parse-git-auth.sh"
 echo "GIT_ASKPASS=${GIT_ASKPASS}"
 #Get latest-commit-apply from artifact S3 Bucket
-aws s3 cp s3://${1}/latest-commit-apply latest-commit-apply
+aws s3 cp s3://${ARTIFACT_BUCKET}/latest-commit-apply latest-commit-apply
 export LATEST_COMMIT_APPLY="$(cat latest-commit-apply)"
 echo "LATEST_COMMIT_APPLY=${LATEST_COMMIT_APPLY}"
