@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Notify Plan Artifact to Github Pull Request
 import sys
 import requests
 import os
