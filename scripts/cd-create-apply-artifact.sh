@@ -4,7 +4,7 @@
 # Create new metadata.json
 jq ￼". + {
     GIT_COMMIT_ID: \"$GIT_COMMIT_ID\"
-    }" /metadata.json > artifact/metadata-apply.json
+    }" artifact/metadata.json > artifact/metadata-apply.json
 mv artifact/metadata-apply.json artifact/metadata.json
 
 # Create artifact
