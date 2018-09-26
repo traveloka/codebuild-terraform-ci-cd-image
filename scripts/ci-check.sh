@@ -25,7 +25,7 @@ if [ $(echo "$TF_WORKING_DIR" | wc -l) -gt 1 ]; then
     echo "Error: Multiple folder contain tf file changes"
     exit 1
 fi
-if [ ! -d $TF_WORKING_DIR ]; then
+if [ ! -d "$TF_WORKING_DIR" ]; then
     echo "$TF_WORKING_DIR folder is deleted. Will do nothing"
     export TF_WORKING_DIR=""
 fi
