@@ -3,8 +3,9 @@
 
 # Copy Terraform working directory
 mkdir -p artifact/${TF_WORKING_DIR}
-cp -r ${TF_WORKING_DIR}/* artifact/${TF_WORKING_DIR}
-
+if [ ! -d "$TF_WORKING_DIR" ]; then
+    cp -r ${TF_WORKING_DIR}/* artifact/${TF_WORKING_DIR}
+fi
 # Create metadata.json file
 jq -n "{
     PR_ID: \"$PR_ID\",
