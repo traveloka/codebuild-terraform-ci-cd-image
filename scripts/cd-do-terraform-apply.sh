@@ -9,9 +9,12 @@ cat metadata.json
 export TF_WORKING_DIR="$(cat metadata.json | jq -r '.TF_WORKING_DIR')"
 
 if [ "$TF_WORKING_DIR" != "" ]; then
+    cd $TF_WORKING_DIR
     # Do Terraform Apply from terraform.tfplan
-    terraform init $TF_WORKING_DIR -no-color
-    terraform apply terraform.tfplan -no-color
+    terraform init -no-color
+    terraform apply ${OLDPWD}/terraform.tfplan -no-color
+
+    rm -rf .terraform
+    cd -
 fi
-rm -rf .terraform
 cd ..

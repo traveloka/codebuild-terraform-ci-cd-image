@@ -3,6 +3,8 @@
 
 mkdir -p artifact
 if [ "$TF_WORKING_DIR" != "" ]; then
-    terraform init $TF_WORKING_DIR -no-color
-    terraform plan -out=artifact/terraform.tfplan $TF_WORKING_DIR -no-color
+    cd $TF_WORKING_DIR
+    terraform init -no-color
+    terraform plan -out=${OLDPWD}/artifact/terraform.tfplan -no-color
+    cd -
 fi
