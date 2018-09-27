@@ -8,7 +8,7 @@
 # 6. LATEST_COMMIT_APPLY    Commit that currently applied on infra.
 
 export OWNER_REPO="$(git config --get remote.origin.url | sed 's/^https:\/\/github.com\///; s/.git$//')"
-echo "OWNER_REPO=${OWNER_REPO}}"
+echo "OWNER_REPO=${OWNER_REPO}"
 export PR_ID="$(ls .git/pr)"
 echo "PR_ID=${PR_ID}"
 export GIT_MASTER_COMMIT_ID="$(git rev-parse origin/master)"
