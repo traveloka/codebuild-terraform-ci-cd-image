@@ -22,6 +22,5 @@ export GIT_ASKPASS="parse-git-auth.sh"
 echo "GIT_ASKPASS=${GIT_ASKPASS}"
 
 # Get PR_ID from Github API
-curl -H "Authorization: token $GITHUB_TOKEN" -X GET https://api.github.com/search/issues?q=${GIT_COMMIT_ID}+is:merged
-export PR_ID="$(curl -H \"Authorization: token $GITHUB_TOKEN\" -X GET https://api.github.com/search/issues?q=${GIT_COMMIT_ID}+is:merged\&sort=updated\&order=desc | jq -r '.items[0].number')"
+export PR_ID="$(curl -H "Authorization: token $GITHUB_TOKEN" -X GET https://api.github.com/search/issues?q=${GIT_COMMIT_ID}+is:merged\&sort=updated\&order=desc | jq -r '.items[0].number')"
 echo "PR_ID=${PR_ID}"
