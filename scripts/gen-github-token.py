@@ -37,8 +37,6 @@ headers = {
 r = requests.post(
     "https://api.github.com/app/installations/" + github_app_installation_id + "/access_tokens", headers=headers)
 
-print r.text
-
 github_token = json.loads(r.text)["token"]
 
 if r.status_code != 201:
