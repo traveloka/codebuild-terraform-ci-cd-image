@@ -9,7 +9,7 @@
 
 export OWNER_REPO="$(git config --get remote.origin.url | sed 's/^https:\/\/github.com\///; s/.git$//')"
 echo "OWNER_REPO=${OWNER_REPO}"
-export PR_ID="$(ls .git/pr)"
+export PR_ID="$(sed 's/pr\///g' <<< $CODEBUILD_SOURCE_VERSION)"
 echo "PR_ID=${PR_ID}"
 export GIT_MASTER_COMMIT_ID="$(git rev-parse origin/master)"
 echo "GIT_MASTER_COMMIT_ID=${GIT_MASTER_COMMIT_ID}"
