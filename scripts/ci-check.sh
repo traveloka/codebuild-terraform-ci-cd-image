@@ -4,7 +4,7 @@
 # Check if current commit is based on latest master commit on repo
 git merge-base --is-ancestor origin/master HEAD
 if [ $? -ne 0 ]; then
-    echo "Error: Commit isn't based on origin/master"
+    echo "Error: Feature branch is behind the latest master branch commit. Please rebase/add merge commit from master to your feature branch"
     exit 1
 fi
 
