@@ -24,7 +24,7 @@ import os
 id_rsa = os.path.expanduser('~/.ssh/id_rsa')
 
 if not os.path.exists(os.path.dirname(id_rsa)):
-	os.makedirs(os.path.dirname(id_rsa))
+    os.makedirs(os.path.dirname(id_rsa))
 
 with open(id_rsa, "w") as f:
     f.write(github_ssh_private_key)
