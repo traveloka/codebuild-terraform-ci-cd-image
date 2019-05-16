@@ -30,7 +30,7 @@ fi
 # Set ssh private key, if it exists
 setup-github-ssh.py
 if [ -f "~/.ssh/id_rsa" ]; then
-    echo "Github ssh private is set"
+    echo "Github ssh private key is set"
 fi
 
 # either ssh private key or app private key must be present for git clone to work
