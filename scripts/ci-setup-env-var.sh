@@ -23,8 +23,8 @@ gen-github-token.py
 if [ -f "GITHUB_TOKEN" ]; then
     export GITHUB_TOKEN=$(cat GITHUB_TOKEN)
     echo "GITHUB_TOKEN is set"
-	export GIT_ASKPASS="parse-git-auth.sh"
-	echo "GIT_ASKPASS=${GIT_ASKPASS}"
+    export GIT_ASKPASS="parse-git-auth.sh"
+    echo "GIT_ASKPASS=${GIT_ASKPASS}"
 fi
 
 # Set ssh private key, if it exists
