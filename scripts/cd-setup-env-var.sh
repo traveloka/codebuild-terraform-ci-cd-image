@@ -30,7 +30,6 @@ fi
 # Set ssh private key, if it exists
 setup-github-ssh.py
 if [ -f "~/.ssh/id_rsa" ]; then
-    export GITHUB_TOKEN=$(cat GITHUB_TOKEN)
     echo "Github ssh private is set"
 fi
 
