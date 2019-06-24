@@ -14,16 +14,14 @@ export TF_WORKING_DIR="$(cat metadata.json | jq -r '.TF_WORKING_DIR')"
 CI_PWD="$(cat metadata.json | jq -r '.CI_PWD')"
 
 if [ "$TF_WORKING_DIR" != "" ]; then
-	ls -la
+    ls -la
 
-	echo "sed -i s:$CI_PWD:$CD_PWD:g terraform.tfplan"
+    echo "sed -i s:$CI_PWD:$CD_PWD:g terraform.tfplan"
 
-	# https://github.com/hashicorp/terraform/issues/8204
+    # https://github.com/hashicorp/terraform/issues/8204
     # https://github.com/hashicorp/terraform/issues/7613
     # We need to correct the absolute paths in the tfplan first
     sed -i -e "s:$CI_PWD:$CD_PWD:g" terraform.tfplan
-
-	ls -la
 
     cd $TF_WORKING_DIR
 
