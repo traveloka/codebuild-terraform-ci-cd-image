@@ -1,6 +1,8 @@
 #!/bin/bash
-# Do Terraform Plan on TF_WORKING_DIR and store it on artifact folder
 
+set -e
+
+# Do Terraform Plan on TF_WORKING_DIR and store it on artifact folder
 mkdir -p artifact
 if [ "$TF_WORKING_DIR" != "" ]; then
     cd $TF_WORKING_DIR
