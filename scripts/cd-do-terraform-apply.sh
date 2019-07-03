@@ -10,19 +10,23 @@ echo "metadata.json"
 cat metadata.json
 
 # Set TF_WORKING_DIR env var from metadata.json
-export TF_WORKING_DIR="$(cat metadata.json | jq -r '.TF_WORKING_DIR')"
+TF_WORKING_DIR="$(cat metadata.json | jq -r '.TF_WORKING_DIR')"
 CI_PWD="$(cat metadata.json | jq -r '.CI_PWD')"
 
+echo "Before changing context: $PWD"
+ls -la
+
+# https://github.com/hashicorp/terraform/blob/master/website/guides/running-terraform-in-automation.html.md#plan-and-apply-on-different-machines
+# https://github.com/hashicorp/terraform/issues/8204
+# Before running apply, obtain the archive created in the previous step and extract it at the same absolute path. 
+mkdir -p $CI_PWD
+cp -rf * $CI_PWD
+cd $CI_PWD
+
+echo "After changing context: $PWD"
+ls -la
+
 if [ "$TF_WORKING_DIR" != "" ]; then
-    ls -la
-
-    echo "sed -i s:$CI_PWD:$CD_PWD:g terraform.tfplan"
-
-    # https://github.com/hashicorp/terraform/issues/8204
-    # https://github.com/hashicorp/terraform/issues/7613
-    # We need to correct the absolute paths in the tfplan first
-    sed -i -e "s:$CI_PWD:$CD_PWD:g" terraform.tfplan
-
     cd $TF_WORKING_DIR
 
     # Do Terraform Apply from terraform.tfplan
@@ -32,4 +36,7 @@ if [ "$TF_WORKING_DIR" != "" ]; then
     rm -rf .terraform
     cd -
 fi
-cd ..
+
+
+cd $CD_PWD
+echo "Back to old context: $PWD"
