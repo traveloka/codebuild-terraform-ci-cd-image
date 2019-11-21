@@ -17,7 +17,7 @@ f = open("artifact/metadata.json", "r")
 metadata = f.read()
 headers = {"Authorization": "token " + git_token}
 json = {
-    "body": "metadata.json\n```json\n" + metadata + "```\nterraform.tfplan\n```hcl\n" + tf_plan + "```\n"
+    "body": "<details><summary>metadata.json</summary>\n\n```json\n" + metadata + "\n```\n</details><details><summary>terraform.tfplan</summary>\n\n```hcl\n" + tf_plan + "\n```\n"
 }
 
 r = requests.post('https://api.github.com/repos/' + owner_repo +
