@@ -15,7 +15,7 @@ if [ $GIT_MASTER_COMMIT_ID != $LATEST_COMMIT_APPLY ]; then
 fi
 
 # Set env var TF_WORKING_DIR
-export TF_WORKING_DIR="$(git diff origin/master --name-only | grep '\.tf$' | sed 's/\/[^/]\+\.tf$//g' | uniq)"
+export TF_WORKING_DIR="$(git diff origin/master --name-only | grep '\.tf$\|\.tpl$' | sed 's/\/[^/]\+\.tf$\|\/[^/]\+\.tpl$//g' | uniq)"
 echo "Folders contain tf file changes:
 $TF_WORKING_DIR
 "
