@@ -11,7 +11,7 @@ set -e
 # 6. ~/.ssh/id_rsa          Sets ssh private key for ssh git clones
 # 7. PR_ID                  Github Pull Request ID from Github API
 
-export OWNER_REPO="$(git config --get remote.origin.url | sed 's/^https:\/\/github.com\///; s/.git$//')"
+export OWNER_REPO="$(git config --get remote.origin.url | sed 's/^https:\/\/github.com\///; s/^git@github.com://; s/.git$//')"
 echo "OWNER_REPO=${OWNER_REPO}"
 export GIT_COMMIT_ID="$(git rev-parse HEAD)"
 echo "GIT_COMMIT_ID=${GIT_COMMIT_ID}"
