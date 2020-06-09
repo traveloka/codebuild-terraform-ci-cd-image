@@ -11,7 +11,7 @@ set -e
 # 6. ~/.ssh/id_rsa          Sets ssh private key for ssh git clones
 # 7. LATEST_COMMIT_APPLY    Commit that currently applied on infra.
 
-export OWNER_REPO="$(git config --get remote.origin.url | sed 's/^https:\/\/github.com\///; s/.git$//')"
+export OWNER_REPO="$(git config --get remote.origin.url | sed 's/^https:\/\/github.com\///; s/^git@github.com://; s/.git$//')"
 echo "OWNER_REPO=${OWNER_REPO}"
 export PR_ID="$(echo $CODEBUILD_SOURCE_VERSION | sed 's/pr\///g')"
 echo "PR_ID=${PR_ID}"
