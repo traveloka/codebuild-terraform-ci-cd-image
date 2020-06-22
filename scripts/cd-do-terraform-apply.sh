@@ -25,7 +25,7 @@ if [ "$TF_WORKING_DIR" != "" ]; then
 
     # Do Terraform Apply from terraform.tfplan
     terraform init -no-color
-    terraform apply ${OLDPWD}/terraform.tfplan -no-color
+    terraform apply ${OLDPWD}/terraform.tfplan -no-color | tee ${CD_PWD}/apply_output.txt
 
     rm -rf .terraform
     cd -

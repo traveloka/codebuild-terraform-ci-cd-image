@@ -8,7 +8,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Check if latest master commit on repo and commit on current infra state on S3 bucket are equal/same
+# Warn if last applied terraform is not master latest commit
 if [ $GIT_MASTER_COMMIT_ID != $LATEST_COMMIT_APPLY ]; then
     echo "Warning: Git commit on origin/master($GIT_MASTER_COMMIT_ID) and latest-commit-apply($LATEST_COMMIT_APPLY) on S3 aren't equal"
 fi
