@@ -1,10 +1,11 @@
 #!/usr/bin/env python
-
+from __future__ import print_function
 import boto3
 import sys
 
+
 ssm_key = "/tvlk-secret/terraform-ci-cd/terraform-ci-cd/github-app-private-key"
-print "Looking for app private key at " + ssm_key
+print("Looking for app private key at " + ssm_key)
 
 client = boto3.client('ssm')
 parameter_store = client.get_parameter(
@@ -15,7 +16,7 @@ parameter_store = client.get_parameter(
 # ignore setting app private key if there is no app private key set in the SSM
 github_app_private_key = parameter_store["Parameter"]["Value"]
 if not github_app_private_key:
-    print "There is no app private key set"
+    print("There is no app private key set")
     sys.exit(0)
 
 
@@ -46,12 +47,12 @@ headers = {
 r = requests.post(
     "https://api.github.com/app/installations/" + github_app_installation_id + "/access_tokens", headers=headers)
 
-github_token = json.loads(r.text)["token"]
-
 if r.status_code != 201:
-    print "Unable to retrieve access token with github app private key, reason: "
-    print r.text
+    print("Unable to retrieve access token with github app private key, reason: ")
+    print(r.text)
     sys.exit(1)
+
+github_token = json.loads(r.text)["token"]
 
 f = open("GITHUB_TOKEN", "w")
 f.write(github_token)

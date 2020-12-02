@@ -1,5 +1,7 @@
 #!/bin/bash
+CURRENT_DIR="$(dirname "$0")"
+. ${CURRENT_DIR}/00_trap.sh
+
 # Install Terraform with specific version
-wget -q https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
-unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/local/bin
-rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+tfenv install ${TERRAFORM_VERSION}
+tfenv use ${TERRAFORM_VERSION}

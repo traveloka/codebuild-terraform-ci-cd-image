@@ -1,5 +1,12 @@
 #!/bin/bash
+CURRENT_DIR="$(dirname "$0")"
+. ${CURRENT_DIR}/00_trap.sh
+
 # Create Apply Artifact
+if [ $SKIP_CICD -eq 1 ]; then
+  echo "Skipping this step"
+  exit 0
+fi
 
 # Create new metadata.json
 jq ". + {

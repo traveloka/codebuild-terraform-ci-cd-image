@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
+CURRENT_DIR="$(dirname "$0")"
+. ${CURRENT_DIR}/00_trap.sh
 
 # Set CI Environment Variables:
 # 1. OWNER_REPO             ${owner name}/${repo name}
@@ -10,6 +12,7 @@ set -e
 # 5. GIT_ASKPASS            Command which called by git command to authenticate using Github token
 # 6. ~/.ssh/id_rsa          Sets ssh private key for ssh git clones
 # 7. LATEST_COMMIT_APPLY    Commit that currently applied on infra.
+# 8. SKIP_CICD              Whether the terraform ci/cd is not executed (0 => false, 1=> true).
 
 export OWNER_REPO="$(git config --get remote.origin.url | sed 's/^https:\/\/github.com\///; s/.git$//')"
 echo "OWNER_REPO=${OWNER_REPO}"
@@ -17,6 +20,7 @@ export PR_ID="$(echo $CODEBUILD_SOURCE_VERSION | sed 's/pr\///g')"
 echo "PR_ID=${PR_ID}"
 export GIT_MASTER_COMMIT_ID="$(git rev-parse origin/master)"
 echo "GIT_MASTER_COMMIT_ID=${GIT_MASTER_COMMIT_ID}"
+export SKIP_CICD=0
 
 # Get Temporary Github Token By using Github app private key from AWS Parameter Store
 gen-github-token.py
@@ -28,14 +32,20 @@ if [ -f "GITHUB_TOKEN" ]; then
 fi
 
 # Set ssh private key, if it exists
-setup-github-ssh.py
-if [ -f "~/.ssh/id_rsa" ]; then
+mkdir -p ~/.ssh
+SSH_PRIVATE_KEY="/tvlk-secret/terraform-ci-cd/terraform-ci-cd/github-ssh-private-key"
+aws ssm get-parameters --name ${SSH_PRIVATE_KEY} --with-decryption --query "Parameters[*].{Value:Value}" --region ap-southeast-1 --output text > ~/.ssh/id_rsa || true
+if [ -s ~/.ssh/id_rsa ]; then
+    chmod 400 ~/.ssh/id_rsa
+    eval $(ssh-agent -s)
+    ssh-add /root/.ssh/id_rsa
+    ssh-keyscan github.com >> ~/.ssh/known_hosts
     echo "Github ssh private key is set"
 fi
 
 # either ssh private key or app private key must be present for git clone to work
 # if both exists, then it depends on how the source is written to use either
-if [ ! -f "GITHUB_TOKEN" -a  ! -f "~/.ssh/id_rsa" ]; then
+if [ ! -f "GITHUB_TOKEN" ] && [ ! -f "~/.ssh/id_rsa" ]; then
     echo "Either Github app private key or ssh private key must be set!"
     exit 1
 fi

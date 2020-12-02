@@ -8,13 +8,12 @@ from jinja2 import Environment, FileSystemLoader
 
 import notify_github as gh
 
-if not os.path.isfile('artifact/terraform.tfplan'):
-    print("artifact/terraform.tfplan not found. Skipping this step")
+if not os.path.isfile('/tmp/tfApplyOutput'):
+    print("/tmp/tfApplyOutput not found. Skipping this step")
     sys.exit(0)
 
-command = os.popen('terraform show artifact/terraform.tfplan -no-color')
-tf_plan = command.read()
-command.close()
+tf_out = open("/tmp/tfApplyOutput", "r")
+tf_out = tf_out.read()
 
 f = open("artifact/metadata.json", "r")
 metadata = f.read()
@@ -23,9 +22,9 @@ template = Environment(
     loader=FileSystemLoader(os.path.dirname(os.path.realpath(__file__)) + "/templates")
 ).get_template("terraform_output.j2")
 message = template.render(
+    file_name="terraform.output",
     metadata_json=metadata,
-    file_name="terraform.tfplan",
-    terraform_output=tf_plan
+    terraform_output=tf_out
 )
 
 gh.send_pr_comment(payload=message)
