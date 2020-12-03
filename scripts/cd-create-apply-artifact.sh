@@ -1,6 +1,5 @@
 #!/bin/bash
-CURRENT_DIR="$(dirname "$0")"
-. ${CURRENT_DIR}/00_trap.sh
+. /usr/local/bin/00_trap.sh
 
 # Create Apply Artifact
 if [ $SKIP_CICD -eq 1 ]; then

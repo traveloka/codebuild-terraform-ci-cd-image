@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-set -ex
-CURRENT_DIR="$(dirname "$0")"
-. ${CURRENT_DIR}/00_trap.sh
+set -e
+. /usr/local/bin/00_trap.sh
 
 # Set CI Environment Variables:
 # 1. OWNER_REPO             ${owner name}/${repo name}

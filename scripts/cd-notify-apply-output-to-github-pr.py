@@ -8,15 +8,16 @@ from jinja2 import Environment, FileSystemLoader
 
 import notify_github as gh
 
-if not os.path.isfile('/tmp/tfApplyOutput'):
-    print("/tmp/tfApplyOutput not found. Skipping this step")
-    sys.exit(0)
+metadata = dict()
+tf_out = "this operation does nothing!"
 
-tf_out = open("/tmp/tfApplyOutput", "r")
-tf_out = tf_out.read()
+if os.path.isfile('/tmp/tfApplyOutput'):
+    tf_out = open("/tmp/tfApplyOutput", "r")
+    tf_out = tf_out.read()
 
-f = open("artifact/metadata.json", "r")
-metadata = f.read()
+if os.path.isfile('/tmp/tfApplyOutput'):
+    f = open("artifact/metadata.json", "r")
+    metadata = f.read()
 
 template = Environment(
     loader=FileSystemLoader(os.path.dirname(os.path.realpath(__file__)) + "/templates")

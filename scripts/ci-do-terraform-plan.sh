@@ -1,7 +1,6 @@
 #!/bin/bash
-set +ex
-CURRENT_DIR="$(dirname "$0")"
-. ${CURRENT_DIR}/00_trap.sh
+set -e
+. /usr/local/bin/00_trap.sh
 
 # CODEBUILD_BUILD_SUCCEEDING: Whether the current build is succeeding. Set to 0 if the build is failing, or 1 if the build is succeeding.
 # invert CODEBUILD_BUILD_SUCCEEDING as exitcode

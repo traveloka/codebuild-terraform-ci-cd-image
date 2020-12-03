@@ -1,11 +1,8 @@
 #!/bin/bash
 # Check CI prerequisites to do Terraform commands and set env var TF_WORKING_DIR
 
-set -x
-#CURRENT_DIR="$(dirname "$0")"
-#. ${CURRENT_DIR}/00_trap.sh
-
 exitCode=0
+fmtExitCode=0
 
 # Check if current commit is based on latest master commit on repo
 git merge-base --is-ancestor origin/master HEAD
@@ -16,10 +13,11 @@ fi
 
 # Set env var TF_WORKING_DIR
 export TF_WORKING_DIR="$(git diff origin/master --name-only | grep '\.tf$\|\.tpl$' | sed 's/\/[^/]\+\.tf$\|\/[^/]\+\.tpl$//g' | uniq)"
+tf_working_dir_num="$(wc -l <<<"${TF_WORKING_DIR}")"
 echo "Folders contain tf file changes: $TF_WORKING_DIR"
 
 # Check if there is folder contains tf files changes
-if [ -z $TF_WORKING_DIR ]; then
+if [ -z "$TF_WORKING_DIR" ]; then
     notify_github.py "- PR does not contain terraform code changes. Will do nothing"
     export SKIP_CICD=1
     exit 0
@@ -32,7 +30,7 @@ if [ $GIT_MASTER_COMMIT_ID != $LATEST_COMMIT_APPLY ]; then
 fi
 
 # Check if only one folder contains tf files changes
-if [ "$(echo "$TF_WORKING_DIR" | wc -l)" -gt 1 ]; then
+if [ $tf_working_dir_num -gt 1 ]; then
     echo "Error: Multiple folder contain tf file changes" | tee -a /tmp/errMsg.log
     exitCode=1
 fi

@@ -1,8 +1,6 @@
 #!/bin/bash
-
-set -ex
-CURRENT_DIR="$(dirname "$0")"
-. ${CURRENT_DIR}/00_trap.sh
+set -e
+. /usr/local/bin/00_trap.sh
 
 # Create Plan Artifact
 # Copy Terraform working directory
