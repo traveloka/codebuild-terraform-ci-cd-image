@@ -15,7 +15,7 @@ if os.path.isfile('/tmp/tfApplyOutput'):
     tf_out = open("/tmp/tfApplyOutput", "r")
     tf_out = tf_out.read()
 
-if os.path.isfile('/tmp/tfApplyOutput'):
+if os.path.isfile('artifact/metadata.json'):
     f = open("artifact/metadata.json", "r")
     metadata = f.read()
 
