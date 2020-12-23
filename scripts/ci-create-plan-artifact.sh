@@ -7,6 +7,7 @@ set -e
 mkdir -p artifact/${TF_WORKING_DIR}
 if [ "$TF_WORKING_DIR" != "" ]; then
     cp -r ${TF_WORKING_DIR}/* artifact/${TF_WORKING_DIR}
+    [[ -f ${TF_WORKING_DIR}/.terraform-version ]] && cp ${TF_WORKING_DIR}/.terraform-version artifact/${TF_WORKING_DIR}
 fi
 # Create metadata.json file
 jq -n "{

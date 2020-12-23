@@ -37,19 +37,20 @@ fi
 
 # Only execute this if exitCode == 0
 if [ $exitCode -eq 0 ] && [ ! -d "$TF_WORKING_DIR" ]; then
-    echo "${TF_WORKING_DIR//\\n/;} folder is deleted. Will do nothing" | tee -a /tmp/errMsg.log
+    notify_github.py "- ${TF_WORKING_DIR//\\n/;} directory is deleted. Will do nothing. Please run terraform operation manually!"
     export TF_WORKING_DIR=""
     export SKIP_CICD=1
 fi
 
 # Only execute this if exitCode == 0
 if [ $exitCode -eq 0 ] && [ -n "$TF_WORKING_DIR" ]; then
-  fmtOutput=$(terraform fmt -check=true -write=false -diff $TF_WORKING_DIR 2>&1)
+  pushd $TF_WORKING_DIR
+  fmtOutput=$(terraform fmt -check=true -write=false -diff 2>&1)
   fmtExitCode=$?
   if [ $fmtExitCode -ne 0 ]; then
-    echo "Error: Terraform files are incorrectly formatted. Please run: terraform fmt" | tee -a /tmp/errMsg.log
     exitCode=1
   fi
+  popd
 fi
 
 if [ $exitCode -ne 0 ]; then

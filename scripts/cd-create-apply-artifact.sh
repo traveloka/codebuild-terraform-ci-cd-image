@@ -2,7 +2,7 @@
 . /usr/local/bin/00_trap.sh
 
 # Create Apply Artifact
-if [ $SKIP_CICD -eq 1 ]; then
+if [[ $SKIP_CICD -eq 1 ]]; then
   echo "Skipping this step"
   exit 0
 fi
