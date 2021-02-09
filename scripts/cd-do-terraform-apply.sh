@@ -33,6 +33,9 @@ cd $CI_PWD
 if [ "$TF_WORKING_DIR" != "" ]; then
     cd $TF_WORKING_DIR
 
+    # run tfenv install when .terraform-version exist
+    test ! -f .terraform-version || tfenv install
+
     # Do Terraform Apply from terraform.tfplan
     # Save terraform apply stdout and stderr to temporary files
     # we need "bash" since codebuild will use "sh" as runtime

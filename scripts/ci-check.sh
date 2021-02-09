@@ -45,9 +45,14 @@ fi
 # Only execute this if exitCode == 0
 if [ $exitCode -eq 0 ] && [ -n "$TF_WORKING_DIR" ]; then
   pushd $TF_WORKING_DIR
+
+  # run tfenv install when .terraform-version exist
+  test ! -f .terraform-version || tfenv install
+
   fmtOutput=$(terraform fmt -check=true -write=false -diff 2>&1)
   fmtExitCode=$?
   if [ $fmtExitCode -ne 0 ]; then
+    echo "Terraform FMT check failed"
     exitCode=1
   fi
   popd
