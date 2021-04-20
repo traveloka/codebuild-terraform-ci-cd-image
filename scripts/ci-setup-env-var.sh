@@ -31,16 +31,23 @@ if [ -f "GITHUB_TOKEN" ]; then
 fi
 
 # Set ssh private key, if it exists
+echo "Setting up ssh key."
 mkdir -p ~/.ssh
+echo "Download ssh key from parameter store and copy it to ~/.ssh"
 SSH_PRIVATE_KEY="/tvlk-secret/terraform-ci-cd/terraform-ci-cd/github-ssh-private-key"
 aws ssm get-parameters --name ${SSH_PRIVATE_KEY} --with-decryption --query "Parameters[*].{Value:Value}" --region ap-southeast-1 --output text > ~/.ssh/id_rsa || true
-if [ -s ~/.ssh/id_rsa ]; then
+echo "check if key exist and valid format"
+if [ -s ~/.ssh/id_rsa ] && ssh-keygen -l -f ~/.ssh/id_rsa
+then
     chmod 400 ~/.ssh/id_rsa
     eval $(ssh-agent -s)
     ssh-add /root/.ssh/id_rsa
     ssh-keyscan github.com >> ~/.ssh/known_hosts
     echo "Github ssh private key is set"
+else
+    echo "Invalid ssh private key format. Ignore setting up ssh key"
 fi
+
 
 # either ssh private key or app private key must be present for git clone to work
 # if both exists, then it depends on how the source is written to use either
