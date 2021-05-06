@@ -24,8 +24,8 @@ RUN python -m pip install --upgrade pip && \
     python -m pip install --no-cache-dir requests && \
     python -m pip install --no-cache-dir Jinja2 && \
     python -m pip cache purge
-RUN tfenv install 0.11.14 &&\
-    tfenv install 0.12.30 &&\
-    tfenv install 0.13.6 &&\
-    tfenv use 0.11.14
+RUN tfenv install 0.11.15 &&\
+    tfenv install 0.12.31 &&\
+    tfenv install 0.13.7 &&\
+    tfenv use 0.11.15
 COPY scripts/ /usr/local/bin/
